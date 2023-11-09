@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, session
-
+from polygoat.goat import chat
 import mysql.connector
 
 auth = Blueprint('auth', __name__)
@@ -7,6 +7,13 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/')
 def home():
+  if request.method == "POST":
+    user_input = str(request.form['user_input'])
+    #assistant_input = str(request.form['assistant_input'])
+    system_input = str(request.form['system_input'])
+    
+    response = chat(user_input, assistant_input, system_input)
+    return render_template('home.html', response=response)
   return render_template("home.html")
 
 
